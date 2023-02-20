@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: traefik-forward-auth
+  namespace: adminer
+spec:
+  forwardAuth:
+    address: https://oauth2.yourdomain.com
+    tls:
+      insecureSkipVerify: false
+    trustForwardHeader: true
+    authResponseHeaders:
+      - X-Auth-Request-User
+      - X-Auth-Request-Redirect

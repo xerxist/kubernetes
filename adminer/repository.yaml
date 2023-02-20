@@ -1,0 +1,8 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: adminer
+  namespace: flux-system
+spec:
+  image: adminer
+  interval: 24h

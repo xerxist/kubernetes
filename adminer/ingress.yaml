@@ -1,0 +1,27 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: adminer-dashboard
+  namespace: adminer
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`adminer.yourdomain.com`)
+      kind: Rule
+      services:
+        - name: adminer
+          port: 8080
+      middlewares:
+        - name: traefik-forward-auth
+          namespace: adminer
+        - name: adminer-default-headers
+          namespace: adminer
+  tls:
+    options:
+      name: adminer-tls-options
+      namespace: adminer
+    secretName: adminer-cert-tls

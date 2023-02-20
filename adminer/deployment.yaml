@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adminer
+  namespace: adminer
+  labels:
+    app: adminer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adminer
+  template:
+    metadata:
+      labels:
+        app: adminer
+    spec:
+      containers:
+      - name: adminer
+        image: adminer:4.8.1 # {"$imagepolicy": "flux-system:adminer"}
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: TZ
+          value: Europe/Amsterdam
+        ports:
+        - name: http
+          containerPort: 8080

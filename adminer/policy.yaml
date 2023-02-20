@@ -1,0 +1,11 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: adminer
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: adminer
+  policy:
+    semver:
+      range: ">=4.8.1"
