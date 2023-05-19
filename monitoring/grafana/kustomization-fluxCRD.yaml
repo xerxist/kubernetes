@@ -12,8 +12,6 @@ spec:
   interval: 30m
   prune: true
   wait: true
-  dependsOn:
-  - name: traefik-base
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
