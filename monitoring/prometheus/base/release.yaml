@@ -1,0 +1,37 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus
+  namespace: kube-prometheus
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: '>=45.6.0'
+      sourceRef:
+        kind: HelmRepository
+        name: kube-prometheus
+      interval: 24h
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 5
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 5
+  values:
+    prometheus:
+      prometheusSpec:
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+    grafana:
+      enabled: false
+    alertmanager:
+      enabled: false
+    prometheus-pushgateway:
+      enabled: false

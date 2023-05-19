@@ -1,0 +1,14 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: grafana-production
+  namespace: grafana
+spec:
+  secretName: grafana-production-tls
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "grafana.yourdomain.com"
+  dnsNames:
+  - "grafana.yourdomain.com"
