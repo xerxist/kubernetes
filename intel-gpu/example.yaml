@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plex
+  namespace: plex
+  labels:
+    app: plex
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: plex
+  template:
+    metadata:
+      labels:
+        app: plex
+    spec:
+      containers:
+      - name: plex
+        image: lscr.io/linuxserver/plex:1.32.4 # {"$imagepolicy": "flux-system:plex"}
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: TZ
+          value: Europe/Amsterdam
+        - name: PUID
+          value: "12345"
+        - name: PGID
+          value: "12345"
+        - name: PLEX_CLAIM
+          value: claim-112323123123123131323
+        - name: VERSION
+          value: docker
+        ports:
+        - name: plex
+          containerPort: 32400
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - all
+            add: ['CHOWN', 'FOWNER', 'SETGID', 'SETUID']
+        resources:
+          limits:
+            gpu.intel.com/i915: "1"  #### <<<<<<< add this to enable the igpu
